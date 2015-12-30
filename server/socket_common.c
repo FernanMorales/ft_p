@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 int						init_socket(void)
 {
@@ -50,4 +53,24 @@ ssize_t					safe_recv(int cs, char *buf, size_t len)
 		len -= sz;
 	}
 	return (sent);
+}
+
+void					handle_dir(int cs, char *buf)
+{
+	if (!ft_strncmp(buf, "mkdir ", 6))
+	{
+		if (mkdir(&buf[6], S_IRUSR | S_IWUSR | S_IXUSR) == 0)
+			safe_send(cs, "OK", 2);
+		else
+			safe_send(cs, "KO", 2);
+		return ;
+	}
+	else if (!ft_strncmp(buf, "rmdir ", 6))
+	{
+		if (rmdir(&buf[6]) == 0)
+			safe_send(cs, "OK", 2);
+		else
+			safe_send(cs, "KO", 2);
+		return ;
+	}
 }

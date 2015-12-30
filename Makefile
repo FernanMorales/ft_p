@@ -15,7 +15,8 @@ NAME_SERVEUR = serveur
 
 SRC_CLIENT = clien/main.c \
 			clien/builtin.c \
-			clien/socket_common.c
+			clien/socket_common.c \
+			clien/client_cmd.c
 
 SRC_SERVEUR = server/main.c \
 			server/builtin.c \
@@ -28,11 +29,11 @@ all: $(NAME_CLIENT) $(NAME_SERVEUR)
 
 $(NAME_CLIENT): $(OBJ_CLIENT)
 	make -C libft/
-	clang -O3 -Llibft -lft -o $@ $^
+	clang -O3 -Llibft -lft -o $@ $^ -lm -lresolv
 
 $(NAME_SERVEUR): $(OBJ_SERVEUR)
 	make -C libft/
-	clang -O3 -Llibft -lft -o $@ $^
+	clang -O3 -Llibft -lft -o $@ $^ -lm -lresolv
 
 %.o: %.c
 	clang -O3 -Wall -Wextra -Werror -Ilibft -o $@ -c $^

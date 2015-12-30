@@ -90,6 +90,8 @@ static void				handle_client(int cs, struct sockaddr_in *csin)
 			show_ls(cs);
 		else if (!ft_strncmp(buf, "cd ", 3))
 			change_dir(cs, &buf[3]);
+		else if (!ft_strncmp(buf, "mkdir ", 6) || !ft_strncmp(buf, "rmdir ", 6))
+			handle_dir(cs, buf);
 	}
 }
 
@@ -117,7 +119,7 @@ int						main(int ac, char **av)
 			if (!fork())
 				handle_client(cs, &csin);
 	}
-	fprintf(stderr, "%sCouldn't listen on port: [%d]%s\n", RED,
+	printf("%sCouldn't listen on port: [%d]%s\n", RED,
 			ft_atoi(av[1]), END);
 	return (close(sock));
 }

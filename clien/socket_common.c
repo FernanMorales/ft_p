@@ -12,6 +12,7 @@
 
 #include <netdb.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <sys/socket.h>
 
 int						init_socket(void)
@@ -50,4 +51,15 @@ ssize_t					safe_recv(int cs, char *buf, size_t len)
 		len -= sz;
 	}
 	return (sent);
+}
+
+struct hostent			*get_hostname(char *hostname)
+{
+	struct hostent	*host;
+
+	if ((host = gethostbyname2(hostname, AF_INET6)))
+		return (host);
+	else if ((host = gethostbyname2(hostname, AF_INET)))
+		return (host);
+	return (NULL);
 }

@@ -21,6 +21,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <resolv.h>
 #include "client.h"
 
 static int				usage(char *name)
@@ -107,7 +108,7 @@ static void				handle_client(int sock, char *s)
 			recv_file(sock, s, s + 4, 0);
 		else if (!ft_strncmp("put ", s, 4))
 			send_file(sock, s, s + 4, 0);
-		else
+		else if (!check_client_commands(sock, s))
 			printf("%sCommand not found [%s]%s\n", LIGHT_RED, s, END);
 		ft_putstr(PROMPT);
 		free(s);
@@ -124,7 +125,7 @@ int						main(int ac, char **av)
 		return (usage(av[0]));
 	signal(SIGCHLD, SIG_IGN);
 	sock = init_socket();
-	if (!(host = gethostbyname(av[1])))
+	if (!(host = get_hostname(av[1])))
 	{
 		fprintf(stderr, "%sCould not resolve hostname: [%s]%s\n",
 				RED, av[1], END);

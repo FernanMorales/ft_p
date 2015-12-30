@@ -31,5 +31,8 @@ void			send_cd(int sock, char *s);
 void			display(uint32_t tot, uint32_t rest);
 void			send_pwd(int sock);
 void			send_ls(int sock);
+struct hostent	*get_hostname(char *hostname);
+void			show_pwd(void);
+int				check_client_commands(int sock, char *s);
 
 #endif

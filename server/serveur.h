@@ -30,5 +30,6 @@ void			show_pwd(int cs);
 void			show_ls(int cs);
 void			change_dir(int cs, char *path);
 char			*get_initial_path(int flag);
+void			handle_dir(int cs, char *buf);
 
 #endif
